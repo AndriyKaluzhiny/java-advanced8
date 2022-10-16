@@ -1,6 +1,5 @@
 package ua.lviv.lgs.dao.impl;
 
-import org.apache.log4j.Logger;
 import ua.lviv.lgs.dao.ProductDao;
 import ua.lviv.lgs.domain.Product;
 import ua.lviv.lgs.utils.ConnectionUtils;
@@ -11,6 +10,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class ProductDaoImpl implements ProductDao {
     private static String READ_ALL = "select * from product";
@@ -30,29 +31,52 @@ public class ProductDaoImpl implements ProductDao {
     }
 
     @Override
-    public void readAll() {
+    public List<Product> readAll() {
+        List<Product> productRecords = new ArrayList<>();
+
         try {
             preparedStatement = connection.prepareStatement(READ_ALL);
+            preparedStatement.executeQuery();
+
             ResultSet rs = preparedStatement.getResultSet();
-            Mapper.productMapper(rs);
-            throw new SQLException();
+            while (rs.next()) {
+                Integer id = rs.getInt("id");
+                String name = rs.getString("name");
+                String description = rs.getString("description");
+                Double cost = rs.getDouble("cost");
+
+                Product product = new Product(id,name, description, cost);
+                productRecords.add(product);
+            }
         } catch (SQLException e) {
             System.out.println(e);
         }
+
+        return productRecords;
     }
 
     @Override
     public Product read(int id) throws SQLException {
-        ResultSet resultSet = null;
+        Product product = null;
+
         try {
             preparedStatement = connection.prepareStatement(READ_BY_ID);
             preparedStatement.setInt(1, id);
-            resultSet = preparedStatement.getResultSet();
+            preparedStatement.executeQuery();
+
+            ResultSet rs = preparedStatement.getResultSet();
+            rs.next();
+            Integer productId = rs.getInt("id");
+            String name = rs.getString("name");
+            String description = rs.getString("description");
+            Double cost = rs.getDouble("cost");
+
+            product = new Product(productId, name, description, cost);
         } catch (SQLException e) {
             System.out.println(e);
         }
 
-        return Mapper.productMapper(resultSet);
+        return product;
     }
 
     @Override

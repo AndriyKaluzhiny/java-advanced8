@@ -42,18 +42,18 @@ public class Mapper {
         return user;
     }
 
-    public static Product productMapper(ResultSet result) throws SQLException {
-        Product product = null;
-        try {
-            Integer id = result.getInt("id");
-            String name = result.getString("product_name");
-            String description = result.getString("description");
-            Double cost = result.getDouble("cost");
-
-            product = new Product(id,name,description,cost);
-        } catch (SQLException e) {
-            LOGGER.error(e);
-        }
-        return product;
-    }
+//    public static Product productMapper(ResultSet result) throws SQLException {
+//        Product product = null;
+//        try {
+//            Integer id = result.getInt("id");
+//            String name = result.getString("product_name");
+//            String description = result.getString("description");
+//            Double cost = result.getDouble("cost");
+//
+//            product = new Product(id,name,description,cost);
+//        } catch (SQLException e) {
+//            LOGGER.error(e);
+//        }
+//        return product;
+//    }
 }

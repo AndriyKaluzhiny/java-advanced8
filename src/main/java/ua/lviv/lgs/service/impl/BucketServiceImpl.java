@@ -4,10 +4,12 @@ import org.apache.log4j.Logger;
 import ua.lviv.lgs.dao.BucketDao;
 import ua.lviv.lgs.dao.impl.BucketDaoImpl;
 import ua.lviv.lgs.domain.Bucket;
+import ua.lviv.lgs.domain.Product;
 import ua.lviv.lgs.service.BucketService;
 
 import java.lang.reflect.InvocationTargetException;
 import java.sql.SQLException;
+import java.util.List;
 
 public class BucketServiceImpl implements BucketService {
     private static Logger LOGGER = Logger.getLogger(BucketServiceImpl.class);
@@ -72,12 +74,13 @@ public class BucketServiceImpl implements BucketService {
     }
 
     @Override
-    public void readAll() {
+    public List<Product> readAll() {
         try {
             bucketDao.readAll();
         } catch (SQLException e) {
             LOGGER.error(e);
         }
+        return null;
     }
 
 }

@@ -2,10 +2,12 @@ package ua.lviv.lgs.dao.impl;
 
 import org.apache.log4j.Logger;
 import ua.lviv.lgs.dao.UserDao;
+import ua.lviv.lgs.domain.Product;
 import ua.lviv.lgs.domain.User;
 import ua.lviv.lgs.domain.UserRole;
 import java.lang.reflect.InvocationTargetException;
 import java.sql.*;
+import java.util.List;
 
 import static ua.lviv.lgs.utils.ConnectionUtils.openConnection;
 
@@ -29,13 +31,14 @@ public class UserDaoImpl implements UserDao {
     }
 
     @Override
-    public void readAll() throws SQLException {
+    public List<Product> readAll() throws SQLException {
         try {
             preparedStatement = connection.prepareStatement(READ_ALL);
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
             LOGGER.error(e);
         }
+        return null;
     }
 
     @Override

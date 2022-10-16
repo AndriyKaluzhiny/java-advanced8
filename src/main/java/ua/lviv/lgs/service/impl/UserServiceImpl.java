@@ -3,11 +3,13 @@ package ua.lviv.lgs.service.impl;
 
 import java.lang.reflect.InvocationTargetException;
 import java.sql.SQLException;
+import java.util.List;
 
 import org.apache.log4j.Logger;
 
 import ua.lviv.lgs.dao.UserDao;
 import ua.lviv.lgs.dao.impl.UserDaoImpl;
+import ua.lviv.lgs.domain.Product;
 import ua.lviv.lgs.domain.User;
 import ua.lviv.lgs.service.UserService;
 
@@ -34,8 +36,9 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void readAll() throws SQLException {
+    public List<Product> readAll() throws SQLException {
         userDao.readAll();
+        return null;
     }
 
     @Override

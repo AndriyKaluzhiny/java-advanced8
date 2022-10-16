@@ -13,6 +13,7 @@ import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 
 @MultipartConfig
@@ -21,12 +22,8 @@ public class LoginSevlet extends HttpServlet {
 
 	private UserService userService = UserServiceImpl.getUserService();
 
-	protected void doGet(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException {
-	}
-
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException {
+			throws IOException {
 
 		String email = request.getParameter("email");
 		String password = request.getParameter("password");
@@ -35,7 +32,10 @@ public class LoginSevlet extends HttpServlet {
 		System.out.println(123321);
 
 		if (user != null && user.getPassword().equals(password)) {
-			System.out.println(123321);
+			HttpSession session = request.getSession(true);
+			session.setAttribute("userId", user.getId());
+
+
 			UserLogin userLogin = new UserLogin();
 			userLogin.destinationUrl = "cabinet.jsp";
 			userLogin.userEmail = user.getEmail();

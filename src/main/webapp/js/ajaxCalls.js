@@ -88,3 +88,16 @@ $('button.nav-link.logout').click(function() {
         }
     );
 });
+
+$('.buy-product').click(function() {
+    let productId = jQuery(this).attr("product-id");
+
+
+    $.post('bucket', { 'productId': productId },
+        function(data) {
+            if (data == 'Success') {
+                $('#buyProductModal').hide();
+                alert('Success');
+            }
+        });
+});

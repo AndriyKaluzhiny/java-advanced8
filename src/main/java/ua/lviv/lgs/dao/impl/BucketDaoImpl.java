@@ -3,16 +3,18 @@ package ua.lviv.lgs.dao.impl;
 import org.apache.log4j.Logger;
 import ua.lviv.lgs.dao.BucketDao;
 import ua.lviv.lgs.domain.Bucket;
+import ua.lviv.lgs.domain.Product;
 import ua.lviv.lgs.utils.ConnectionUtils;
 import ua.lviv.lgs.utils.Mapper;
 
 import java.lang.reflect.InvocationTargetException;
 import java.sql.*;
+import java.util.List;
 
 public class BucketDaoImpl implements BucketDao {
 
     private static String READ_ALL = "select * from bucket";
-    private static String CREATE = "insert into bucket('user_id', 'product_id','purchase_date') values(" +
+    private static String CREATE = "insert into bucket(`userId`, `productId`,`purchaseDate`) values(" +
             "?,?,?)";
     private static String READ_BY_ID = "select * from bucket where id=?";
     private static String DELETE_BY_ID = "delete * from bucket where id=?";
@@ -27,16 +29,16 @@ public class BucketDaoImpl implements BucketDao {
     }
 
     @Override
-    public void readAll() {
+    public List<Product> readAll() {
 
         try {
             preparedStatement = connection.prepareStatement(READ_ALL);
             ResultSet rs = preparedStatement.getResultSet();
             Mapper.bucketMapper(rs);
-            throw new SQLException();
         } catch (SQLException e) {
             LOGGER.error(e);
         }
+        return null;
     }
 
     @Override
@@ -55,13 +57,17 @@ public class BucketDaoImpl implements BucketDao {
     @Override
     public Bucket create(Bucket bucket) throws SQLException {
         try {
-            preparedStatement = connection.prepareStatement(CREATE);
+            preparedStatement = connection.prepareStatement(CREATE, Statement.RETURN_GENERATED_KEYS);
             preparedStatement.setInt(1, bucket.getUserId());
             preparedStatement.setInt(2, bucket.getProductId());
-            preparedStatement.setTimestamp(3, bucket.getPurchaseDate());
+            preparedStatement.setDate(3, new Date(bucket.getPurchaseDate().getTime()));
             preparedStatement.executeUpdate();
+
+            ResultSet rs = preparedStatement.getGeneratedKeys();
+            rs.next();
+            bucket.setId(rs.getInt(1));
         } catch (SQLException e) {
-            LOGGER.error(e);
+            System.err.println(e);
         }
         return null;
     }

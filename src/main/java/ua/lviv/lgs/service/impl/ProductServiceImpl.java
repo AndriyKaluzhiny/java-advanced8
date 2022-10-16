@@ -1,6 +1,5 @@
 package ua.lviv.lgs.service.impl;
 
-import org.apache.log4j.Logger;
 import ua.lviv.lgs.dao.ProductDao;
 import ua.lviv.lgs.dao.impl.ProductDaoImpl;
 import ua.lviv.lgs.domain.Product;
@@ -8,10 +7,11 @@ import ua.lviv.lgs.service.ProductService;
 
 import java.lang.reflect.InvocationTargetException;
 import java.sql.SQLException;
+import java.util.List;
 
 public class ProductServiceImpl implements ProductService {
     private ProductDao productDao;
-    private static ProductService productService;
+    private static ProductServiceImpl productServiceImpl;
 //    private static Logger LOGGER = Logger.getLogger(ProductServiceImpl.class);
 
     public ProductServiceImpl() {
@@ -23,17 +23,17 @@ public class ProductServiceImpl implements ProductService {
     }
 
     public static ProductService getProductService() {
-        if (productService == null) {
-            productService = new ProductServiceImpl();
+        if (productServiceImpl == null) {
+            productServiceImpl = new ProductServiceImpl();
         }
 
-        return productService;
+        return productServiceImpl;
     }
 
 
     @Override
-    public void readAll() throws SQLException {
-        productDao.readAll();
+    public List<Product> readAll() throws SQLException {
+        return productDao.readAll();
     }
 
     @Override

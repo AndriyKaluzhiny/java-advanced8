@@ -50,7 +50,18 @@ public class Periodicals extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        super.doGet(req, resp);
+        String productId = req.getParameter("id");
+
+        try {
+         Product product = productService.read(Integer.parseInt(productId));
+
+         req.setAttribute("product", product);
+         req.getRequestDispatcher("singleProduct.jsp").forward(req, resp);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+
     }
 
     @Override

@@ -1,21 +1,22 @@
 package ua.lviv.lgs.domain;
 
 import java.sql.Timestamp;
+import java.util.Date;
 
 public class Bucket {
     private Integer id;
     private Integer userId;
     private Integer productId;
-    private Timestamp purchaseDate;
+    private Date purchaseDate;
 
-    public Bucket(Integer id,Integer userId, Integer productId, Timestamp purchaseDate) {
+    public Bucket(Integer id,Integer userId, Integer productId, Date purchaseDate) {
         this.id = id;
         this.productId = productId;
         this.userId = userId;
         this.purchaseDate = purchaseDate;
     }
 
-    public Bucket(Integer productId,Integer userId, Timestamp purchaseDate) {
+    public Bucket(Integer productId,Integer userId, Date purchaseDate) {
         this.productId = productId;
         this.userId = userId;
         this.purchaseDate = purchaseDate;
@@ -29,7 +30,7 @@ public class Bucket {
         return productId;
     }
 
-    public Timestamp getPurchaseDate() {
+    public Date getPurchaseDate() {
         return purchaseDate;
     }
 
